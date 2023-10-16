@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->checkBox->setToolTip("Если установлен, то при открытии директории текующие данные очищаются");
 
     QObject::connect(ui->tableWidget->horizontalHeader(), &QHeaderView::sectionClicked, this, &MainWindow::sortByColumn);
 }
@@ -33,6 +34,11 @@ void MainWindow::on_pushButton_2_clicked()
 
     if (!folderPath.isEmpty())
     {
+        if (ui->checkBox->isChecked())
+        {
+            ui->tableWidget->setRowCount(0);
+        }
+
         QDir dir(folderPath);
         QStringList filters;
         filters << "*.jpg"
